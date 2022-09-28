@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import React from 'react';
-import photo from 'assets/images/Photo.png';
+import photo from '../../../assets/images/Photo.png';
 import LinearGradient from 'react-native-linear-gradient';
 import {NavigationContainer, useNavigation} from '@react-navigation/native';
 

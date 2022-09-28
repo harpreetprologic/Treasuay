@@ -10,7 +10,7 @@ import {
   TextInput,
   Button,
 } from 'react-native';
-import photo from 'assets/images/Photo.png';
+import photo from '../../assets/images/Photo.png';
 import * as yup from 'yup';
 import TextField from 'views/components/inputs/TextField';
 import {
@@ -18,7 +18,6 @@ import {
   color,
 } from 'native-base/lib/typescript/theme/styled-system';
 import LinearGradient from 'react-native-linear-gradient';
-import SafeAreaView from 'react-native-safe-area-view';
 // import Carousel, { Pagination } from 'react-native-snap-carousel';
 // import Carousel from 'react-native-snap-carousel';
 import Onboarding from 'react-native-onboarding-swiper';

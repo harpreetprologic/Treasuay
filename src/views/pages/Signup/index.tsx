@@ -8,13 +8,15 @@ import {
   TouchableOpacity,
   Dimensions,
   TextInput,
-  Button,
 } from 'react-native';
 import {FormControl, Input, WarningOutlineIcon} from 'native-base';
-import TextField from 'views/components/inputs/TextField';
+import TextField from '../../../views/components/inputs/TextField';
 import {color} from 'native-base/lib/typescript/theme/styled-system';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Icons from 'react-native-vector-icons/Ionicons';
+import {useNavigation} from '@react-navigation/native';
+
+import Button from '../../../views/components/inputs/Button';
 
 import {
   Formik,
@@ -25,9 +27,9 @@ import {
   FieldProps,
 } from 'formik';
 import * as yup from 'yup';
-import photo from 'assets/images/Photo.png';
-import SafeAreaView from 'react-native-safe-area-view';
+import photo from '../../../assets/images/Photo.png';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 const {width, height} = Dimensions.get('window');
 type TFields = {
@@ -39,6 +41,7 @@ type TFields = {
 };
 
 const Signup = () => {
+  const navigation = useNavigation();
   const validationSchema = yup.object().shape({
     email: yup
       .string()
@@ -58,7 +61,7 @@ const Signup = () => {
   });
   return (
     <KeyboardAwareScrollView>
-      <SafeAreaView forceInset={{top: 'always'}}>
+      <SafeAreaView>
         <View>
           <View
             style={{
@@ -151,12 +154,21 @@ const Signup = () => {
                   />
 
                   <View>
-                    <TouchableOpacity style={{alignSelf: 'flex-end'}}>
+                    <TouchableOpacity
+                      style={{alignSelf: 'flex-end'}}
+                      onPress={() => navigation.navigate('Tabs')}>
                       <Text style={styles.forgotView}>Forgot Password?</Text>
                     </TouchableOpacity>
                   </View>
                   <View>
-                    <TouchableOpacity
+                    <Button
+                      variant="primary"
+                      label="Sign up"
+                      onPress={handleSubmit}
+                      disabled={!isValid}
+                    />
+
+                    {/* <TouchableOpacity
                       onPress={handleSubmit}
                       disabled={!isValid}
                       // onPress={() => navigation.navigate('Signup')}
@@ -169,7 +181,7 @@ const Signup = () => {
                         }}>
                         Sign up
                       </Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                   </View>
 
                   <View
@@ -190,10 +202,17 @@ const Signup = () => {
                     <Text style={styles.orView}>or</Text>
                   </View>
 
-                  <TouchableOpacity
+                  <Button
+                    style={{marginTop: 24}}
+                    variant="outlined"
+                    label="Login"
+                    onPress={() => navigation.navigate('Login')}
+                  />
+
+                  {/* <TouchableOpacity
                     //   onPress={handleSubmit}
                     //   disabled={!isValid}
-                    // onPress={() => navigation.navigate('Login')}
+                    onPress={() => navigation.navigate('Login')}
                     style={styles.button}>
                     <Text
                       style={{
@@ -203,7 +222,7 @@ const Signup = () => {
                       }}>
                       Log in
                     </Text>
-                  </TouchableOpacity>
+                  </TouchableOpacity> */}
 
                   {/* <Button type title="SIGN UP" disabled={!isValid} /> */}
                 </>

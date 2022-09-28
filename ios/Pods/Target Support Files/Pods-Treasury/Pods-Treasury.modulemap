@@ -1,0 +1,6 @@
+module Pods_Treasury {
+  umbrella header "Pods-Treasury-umbrella.h"
+
+  export *
+  module * { export * }
+}

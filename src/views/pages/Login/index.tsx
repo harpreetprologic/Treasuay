@@ -7,10 +7,9 @@ import {
   TouchableOpacity,
   Dimensions,
   TextInput,
-  Button,
 } from 'react-native';
 import React from 'react';
-import photo from 'assets/images/Photo.png';
+import photo from '../../../assets/images/Photo.png';
 import {FormControl, Input, WarningOutlineIcon} from 'native-base';
 import {
   Formik,
@@ -21,11 +20,16 @@ import {
   FieldProps,
 } from 'formik';
 import * as yup from 'yup';
-import TextField from 'views/components/inputs/TextField';
-import {color} from 'native-base/lib/typescript/theme/styled-system';
-import SafeAreaView from 'react-native-safe-area-view';
+import TextField from '../../../views/components/inputs/TextField';
+import Button from '../../../views/components/inputs/Button';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useNavigation} from '@react-navigation/native';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import {useSelector, useDispatch} from 'react-redux';
+import axios from 'axios';
+import {login} from '../../../store/actions/authActions';
+import {verticalScale} from 'react-native-size-matters';
+const baseUrl = 'http://192.168.1.190:8000//api/auth/signup';
 
 const {width, height} = Dimensions.get('window');
 
@@ -36,7 +40,11 @@ type TFields = {
 };
 
 const Login = () => {
-  const navigation = useNavigation();
+  const dispatch = useDispatch();
+  const authReducer = useSelector((state: any) => state?.authReducer);
+  const {isLoading, userDetails} = authReducer;
+
+  const navigation: any = useNavigation();
   const validationSchema = yup.object().shape({
     email: yup
       .string()
@@ -44,19 +52,12 @@ const Login = () => {
       .required('Email is required'),
     password: yup
       .string()
-      .matches(/\w*[a-z]\w*/, 'Password must have a small letter')
-      .matches(/\w*[A-Z]\w*/, 'Password must have a capital letter')
-      .matches(/\d/, 'Password must have a number')
-      .matches(
-        /[!@#$%^&*()\-_"=+{}; :,<.>]/,
-        'Password must have a special character',
-      )
-      .min(8, ({min}) => `Password must be at least ${min} characters`)
+      .min(6, ({min}) => `Password must be at least ${min} characters`)
       .required('Password is required'),
   });
 
   return (
-    <SafeAreaView forceInset={{top: 'always'}}>
+    <SafeAreaView>
       <View>
         <View
           style={{
@@ -86,7 +87,9 @@ const Login = () => {
               email: string;
               password: string;
               passwordVisible: string;
-            }) => console.log(values)}
+            }) => {
+              dispatch(login(values.email, values.password));
+            }}
             validationSchema={validationSchema}>
             {({
               handleChange,
@@ -102,6 +105,7 @@ const Login = () => {
                   name="email"
                   placeholder="Email Address"
                   keyboardType="email-address"
+                  autoCapitalize="none"
                   leftIcon={() => (
                     <MaterialCommunityIcons
                       name="email"
@@ -133,19 +137,21 @@ const Login = () => {
                 />
                 <View>
                   <TouchableOpacity style={{alignSelf: 'flex-end'}}>
-                    <Text style={styles.forgotView}>Forgot Password?</Text>
+                    <Text
+                      style={styles.forgotView}
+                      onPress={() => navigation.navigate('MainDrawer')}>
+                      Forgot Password?
+                    </Text>
                   </TouchableOpacity>
                 </View>
-                <TouchableOpacity
+
+                <Button
+                  variant="primary"
+                  label="Log in"
                   onPress={handleSubmit}
                   disabled={!isValid}
-                  // onPress={() => navigation.navigate('Login')}
-                  style={styles.button}>
-                  <Text
-                    style={{fontWeight: 'bold', fontSize: 18, color: 'white'}}>
-                    Log in
-                  </Text>
-                </TouchableOpacity>
+                />
+
                 <View
                   style={{
                     flexDirection: 'row',
@@ -153,6 +159,7 @@ const Login = () => {
                     alignItems: 'center',
                     marginTop: 20,
                     paddingHorizontal: 16,
+                    marginBottom: verticalScale(18),
                   }}>
                   <View
                     style={{
@@ -163,21 +170,12 @@ const Login = () => {
                   />
                   <Text style={styles.orView}>or</Text>
                 </View>
-                <View>
-                  <TouchableOpacity
-                    onPress={() => navigation.navigate('Signup')}
-                    style={styles.button1}>
-                    <Text
-                      style={{
-                        fontWeight: 'bold',
-                        fontSize: 18,
-                        color: 'black',
-                      }}>
-                      Sign up
-                    </Text>
-                  </TouchableOpacity>
-                </View>
-                {/* <Button type title="SIGN UP" disabled={!isValid} /> */}
+
+                <Button
+                  variant="outlined"
+                  label="Sign up"
+                  onPress={() => navigation.navigate('Signup')}
+                />
               </>
             )}
           </Formik>

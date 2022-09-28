@@ -12,6 +12,7 @@ import Onboarding from 'react-native-onboarding-swiper';
 import {useNavigation} from '@react-navigation/native';
 import RGradient from 'views/components/gradient/RadialGradient';
 
+
 const {width, height} = Dimensions.get('window');
 
 const Dots = ({selected}: {selected: any}) => {
