@@ -19,8 +19,47 @@ import Icons from 'react-native-vector-icons/Ionicons';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useNavigation, NavigationContainer} from '@react-navigation/native';
 import {api} from '../../../util';
+import ProductList from '../../components/ProductList';
 
 const {width, height} = Dimensions.get('window');
+let mostTreasure = [
+  {
+    imageUrl:
+      'https://www.pakainfo.com/wp-content/uploads/2021/09/image-url-for-testing.jpg',
+  },
+  {
+    imageUrl:
+      'https://www.pakainfo.com/wp-content/uploads/2021/09/sample-image-url-for-testing-768x432.jpg',
+  },
+  {
+    imageUrl:
+      'https://www.pakainfo.com/wp-content/uploads/2021/09/image-url-for-testing.jpg',
+  },
+  {
+    imageUrl:
+      'https://www.pakainfo.com/wp-content/uploads/2021/09/sample-image-url-for-testing-768x432.jpg',
+  },
+  {
+    imageUrl:
+      'https://www.pakainfo.com/wp-content/uploads/2021/09/image-url-for-testing.jpg',
+  },
+  {
+    imageUrl:
+      'https://www.pakainfo.com/wp-content/uploads/2021/09/sample-image-url-for-testing-768x432.jpg',
+  },
+  {
+    imageUrl:
+      'https://www.pakainfo.com/wp-content/uploads/2021/09/image-url-for-testing.jpg',
+  },
+  {
+    imageUrl:
+      'https://www.pakainfo.com/wp-content/uploads/2021/09/sample-image-url-for-testing-768x432.jpg',
+  },
+  {
+    imageUrl:
+      'https://www.pakainfo.com/wp-content/uploads/2021/09/image-url-for-testing.jpg',
+  },
+];
 
 const TreasuryCollection = () => {
   const navigation = useNavigation();
@@ -140,18 +179,20 @@ const TreasuryCollection = () => {
                     marginLeft: 10,
                     alignItems: 'center',
                   }}>
-                  <Image
-                    style={{
-                      height: 80,
-                      width: 80,
-                      resizeMode: 'stretch',
-                      borderRadius: 90,
-                      borderColor: 'black',
-                      borderWidth: 1,
-                    }}
-                    source={{uri: item.imageUrl}}
-                  />
-
+                  <TouchableOpacity
+                    onPress={() => navigation.navigate('ProductPage')}>
+                    <Image
+                      style={{
+                        height: 80,
+                        width: 80,
+                        resizeMode: 'stretch',
+                        borderRadius: 90,
+                        borderColor: 'black',
+                        borderWidth: 1,
+                      }}
+                      source={{uri: item.imageUrl}}
+                    />
+                  </TouchableOpacity>
                   <Text
                     style={{
                       alignSelf: 'center',
@@ -168,446 +209,31 @@ const TreasuryCollection = () => {
         </View>
       </View>
       <ScrollView style={{marginHorizontal: 6}}>
-        <View
-          style={{
-            backgroundColor: '#f2f2f2',
-            width: '100%',
-            height: '22%',
-          }}>
-          <Text style={styles.HeaderView}>Recently Treasured</Text>
-          <FlatList
-            data={[
-              {
-                imageUrl:
-                  'https://www.pakainfo.com/wp-content/uploads/2021/09/image-url-for-testing.jpg',
-              },
-              {
-                imageUrl:
-                  'https://www.pakainfo.com/wp-content/uploads/2021/09/sample-image-url-for-testing-768x432.jpg',
-              },
-              {
-                imageUrl:
-                  'https://www.pakainfo.com/wp-content/uploads/2021/09/image-url-for-testing.jpg',
-              },
-              {
-                imageUrl:
-                  'https://www.pakainfo.com/wp-content/uploads/2021/09/sample-image-url-for-testing-768x432.jpg',
-              },
-              {
-                imageUrl:
-                  'https://www.pakainfo.com/wp-content/uploads/2021/09/image-url-for-testing.jpg',
-              },
-              {
-                imageUrl:
-                  'https://www.pakainfo.com/wp-content/uploads/2021/09/sample-image-url-for-testing-768x432.jpg',
-              },
-              {
-                imageUrl:
-                  'https://www.pakainfo.com/wp-content/uploads/2021/09/image-url-for-testing.jpg',
-              },
-              {
-                imageUrl:
-                  'https://www.pakainfo.com/wp-content/uploads/2021/09/sample-image-url-for-testing-768x432.jpg',
-              },
-              {
-                imageUrl:
-                  'https://www.pakainfo.com/wp-content/uploads/2021/09/image-url-for-testing.jpg',
-              },
-            ]}
-            horizontal
-            // inverted
-            showsHorizontalScrollIndicator={false}
-            style={{marginHorizontal: 5}}
-            renderItem={({item, index}) => (
-              <View
-                style={{marginLeft: 2, marginRight: 2, width: width * 0.28}}>
-                <TouchableOpacity
-                  onPress={() => navigation.navigate('ProductPage')}>
-                  <Image
-                    style={{
-                      height: 125,
-                      width: '100%',
-
-                      resizeMode: 'cover',
-                      // backgroundColor: 'red',
-                    }}
-                    source={{uri: item.imageUrl}}
-                  />
-                </TouchableOpacity>
-                <View style={{marginStart: 5, marginTop: 5}}>
-                  <Text
-                    style={{
-                      alignSelf: 'flex-start',
-                      textAlign: 'center',
-                      fontSize: 12,
-                    }}>
-                    @call Fays
-                  </Text>
-                  <Text
-                    style={{
-                      alignSelf: 'flex-start',
-                      textAlign: 'center',
-                      fontSize: 10,
-                    }}>
-                    carter
-                  </Text>
-                  <Text
-                    style={{
-                      alignSelf: 'flex-start',
-                      textAlign: 'center',
-                      fontSize: 8,
-                    }}>
-                    $120
-                  </Text>
-                </View>
-              </View>
-            )}
+        <View style={{marginBottom: '50%'}}>
+          <ProductList
+            type={0}
+            headerText={'Most Treasured'}
+            data={mostTreasure}
           />
-        </View>
-        {/* </View> */}
-        <View
-          style={{
-            width: '100%',
-            height: '22%',
-            marginTop: 2,
-          }}>
-          <Text style={styles.HeaderView}>Most Treasured</Text>
-          <FlatList
-            data={[
-              {
-                imageUrl:
-                  'https://www.pakainfo.com/wp-content/uploads/2021/09/image-url-for-testing.jpg',
-              },
-              {
-                imageUrl:
-                  'https://www.pakainfo.com/wp-content/uploads/2021/09/sample-image-url-for-testing-768x432.jpg',
-              },
-              {
-                imageUrl:
-                  'https://www.pakainfo.com/wp-content/uploads/2021/09/image-url-for-testing.jpg',
-              },
-              {
-                imageUrl:
-                  'https://www.pakainfo.com/wp-content/uploads/2021/09/sample-image-url-for-testing-768x432.jpg',
-              },
-              {
-                imageUrl:
-                  'https://www.pakainfo.com/wp-content/uploads/2021/09/image-url-for-testing.jpg',
-              },
-              {
-                imageUrl:
-                  'https://www.pakainfo.com/wp-content/uploads/2021/09/sample-image-url-for-testing-768x432.jpg',
-              },
-
-              {
-                imageUrl:
-                  'https://www.pakainfo.com/wp-content/uploads/2021/09/image-url-for-testing.jpg',
-              },
-              {
-                imageUrl:
-                  'https://www.pakainfo.com/wp-content/uploads/2021/09/sample-image-url-for-testing-768x432.jpg',
-              },
-            ]}
-            horizontal
-            // inverted
-            showsHorizontalScrollIndicator={false}
-            style={{marginHorizontal: 5}}
-            renderItem={({item, index}) => (
-              <View
-                style={{marginLeft: 2, marginRight: 2, width: width * 0.28}}>
-                <TouchableOpacity
-                  onPress={() => navigation.navigate('ProductPage')}>
-                  <Image
-                    style={{
-                      height: 125,
-                      width: '100%',
-
-                      resizeMode: 'cover',
-                      // backgroundColor: 'red',
-                    }}
-                    source={{uri: item.imageUrl}}
-                  />
-                </TouchableOpacity>
-                <View style={{marginStart: 5, marginTop: 5}}>
-                  <Text
-                    style={{
-                      alignSelf: 'flex-start',
-                      textAlign: 'center',
-                      fontSize: 12,
-                    }}>
-                    @Raiph
-                  </Text>
-                  <Text
-                    style={{
-                      alignSelf: 'flex-start',
-                      textAlign: 'center',
-                      fontSize: 10,
-                    }}>
-                    Carty
-                  </Text>
-                  <Text style={styles.View$}>$920</Text>
-                </View>
-              </View>
-            )}
+          <ProductList headerText={'Recently Treasured'} data={mostTreasure} />
+          <ProductList
+            type={0}
+            headerText={'Most Treasured'}
+            data={mostTreasure}
           />
-        </View>
-        <View
-          style={{
-            width: '100%',
-            height: '22%',
-            marginTop: 2,
-          }}>
-          <Text style={styles.HeaderView}>Most Treasured</Text>
-          <FlatList
-            data={[
-              {
-                imageUrl:
-                  'https://www.pakainfo.com/wp-content/uploads/2021/09/image-url-for-testing.jpg',
-              },
-              {
-                imageUrl:
-                  'https://www.pakainfo.com/wp-content/uploads/2021/09/sample-image-url-for-testing-768x432.jpg',
-              },
-              {
-                imageUrl:
-                  'https://www.pakainfo.com/wp-content/uploads/2021/09/image-url-for-testing.jpg',
-              },
-              {
-                imageUrl:
-                  'https://www.pakainfo.com/wp-content/uploads/2021/09/sample-image-url-for-testing-768x432.jpg',
-              },
-              {
-                imageUrl:
-                  'https://www.pakainfo.com/wp-content/uploads/2021/09/image-url-for-testing.jpg',
-              },
-              {
-                imageUrl:
-                  'https://www.pakainfo.com/wp-content/uploads/2021/09/sample-image-url-for-testing-768x432.jpg',
-              },
-
-              {
-                imageUrl:
-                  'https://www.pakainfo.com/wp-content/uploads/2021/09/image-url-for-testing.jpg',
-              },
-              {
-                imageUrl:
-                  'https://www.pakainfo.com/wp-content/uploads/2021/09/sample-image-url-for-testing-768x432.jpg',
-              },
-            ]}
-            horizontal
-            // inverted
-            showsHorizontalScrollIndicator={false}
-            style={{marginHorizontal: 5}}
-            renderItem={({item, index}) => (
-              <View
-                style={{marginLeft: 2, marginRight: 2, width: width * 0.28}}>
-                <TouchableOpacity
-                  onPress={() => navigation.navigate('ProductPage')}>
-                  <Image
-                    style={{
-                      height: 125,
-                      width: '100%',
-
-                      resizeMode: 'cover',
-                      // backgroundColor: 'red',
-                    }}
-                    source={{uri: item.imageUrl}}
-                  />
-                </TouchableOpacity>
-                <View style={{marginStart: 5, marginTop: 5}}>
-                  <Text
-                    style={{
-                      alignSelf: 'flex-start',
-                      textAlign: 'center',
-                      fontSize: 12,
-                    }}>
-                    @Raiph
-                  </Text>
-                  <Text
-                    style={{
-                      alignSelf: 'flex-start',
-                      textAlign: 'center',
-                      fontSize: 10,
-                    }}>
-                    Carty
-                  </Text>
-                  <Text style={styles.View$}>$920</Text>
-                </View>
-              </View>
-            )}
+          <ProductList headerText={'Recently Treasured'} data={mostTreasure} />
+          <ProductList
+            type={0}
+            headerText={'Most Treasured'}
+            data={mostTreasure}
           />
-        </View>
-        <View
-          style={{
-            width: '100%',
-            height: '22%',
-            marginTop: 2,
-          }}>
-          <Text style={styles.HeaderView}>Most Treasured</Text>
-          <FlatList
-            data={[
-              {
-                imageUrl:
-                  'https://www.pakainfo.com/wp-content/uploads/2021/09/image-url-for-testing.jpg',
-              },
-              {
-                imageUrl:
-                  'https://www.pakainfo.com/wp-content/uploads/2021/09/sample-image-url-for-testing-768x432.jpg',
-              },
-              {
-                imageUrl:
-                  'https://www.pakainfo.com/wp-content/uploads/2021/09/image-url-for-testing.jpg',
-              },
-              {
-                imageUrl:
-                  'https://www.pakainfo.com/wp-content/uploads/2021/09/sample-image-url-for-testing-768x432.jpg',
-              },
-              {
-                imageUrl:
-                  'https://www.pakainfo.com/wp-content/uploads/2021/09/image-url-for-testing.jpg',
-              },
-              {
-                imageUrl:
-                  'https://www.pakainfo.com/wp-content/uploads/2021/09/sample-image-url-for-testing-768x432.jpg',
-              },
-
-              {
-                imageUrl:
-                  'https://www.pakainfo.com/wp-content/uploads/2021/09/image-url-for-testing.jpg',
-              },
-              {
-                imageUrl:
-                  'https://www.pakainfo.com/wp-content/uploads/2021/09/sample-image-url-for-testing-768x432.jpg',
-              },
-            ]}
-            horizontal
-            // inverted
-            showsHorizontalScrollIndicator={false}
-            style={{marginHorizontal: 5}}
-            renderItem={({item, index}) => (
-              <View
-                style={{marginLeft: 2, marginRight: 2, width: width * 0.28}}>
-                <TouchableOpacity
-                  onPress={() => navigation.navigate('ProductPage')}>
-                  <Image
-                    style={{
-                      height: 125,
-                      width: '100%',
-
-                      resizeMode: 'cover',
-                      // backgroundColor: 'red',
-                    }}
-                    source={{uri: item.imageUrl}}
-                  />
-                </TouchableOpacity>
-                <View style={{marginStart: 5, marginTop: 5}}>
-                  <Text
-                    style={{
-                      alignSelf: 'flex-start',
-                      textAlign: 'center',
-                      fontSize: 12,
-                    }}>
-                    @Raiph
-                  </Text>
-                  <Text
-                    style={{
-                      alignSelf: 'flex-start',
-                      textAlign: 'center',
-                      fontSize: 10,
-                    }}>
-                    Carty
-                  </Text>
-                  <Text style={styles.View$}>$920</Text>
-                </View>
-              </View>
-            )}
+          <ProductList headerText={'Recently Treasured'} data={mostTreasure} />
+          <ProductList
+            type={0}
+            headerText={'Most Treasured'}
+            data={mostTreasure}
           />
-        </View>
-        <View
-          style={{
-            width: '100%',
-            height: '22%',
-            marginTop: 2,
-          }}>
-          <Text style={styles.HeaderView}>Most Treasured</Text>
-          <FlatList
-            data={[
-              {
-                imageUrl:
-                  'https://www.pakainfo.com/wp-content/uploads/2021/09/image-url-for-testing.jpg',
-              },
-              {
-                imageUrl:
-                  'https://www.pakainfo.com/wp-content/uploads/2021/09/sample-image-url-for-testing-768x432.jpg',
-              },
-              {
-                imageUrl:
-                  'https://www.pakainfo.com/wp-content/uploads/2021/09/image-url-for-testing.jpg',
-              },
-              {
-                imageUrl:
-                  'https://www.pakainfo.com/wp-content/uploads/2021/09/sample-image-url-for-testing-768x432.jpg',
-              },
-              {
-                imageUrl:
-                  'https://www.pakainfo.com/wp-content/uploads/2021/09/image-url-for-testing.jpg',
-              },
-              {
-                imageUrl:
-                  'https://www.pakainfo.com/wp-content/uploads/2021/09/sample-image-url-for-testing-768x432.jpg',
-              },
-
-              {
-                imageUrl:
-                  'https://www.pakainfo.com/wp-content/uploads/2021/09/image-url-for-testing.jpg',
-              },
-              {
-                imageUrl:
-                  'https://www.pakainfo.com/wp-content/uploads/2021/09/sample-image-url-for-testing-768x432.jpg',
-              },
-            ]}
-            horizontal
-            // inverted
-            showsHorizontalScrollIndicator={false}
-            style={{marginHorizontal: 5}}
-            renderItem={({item, index}) => (
-              <View
-                style={{marginLeft: 2, marginRight: 2, width: width * 0.28}}>
-                <TouchableOpacity
-                  onPress={() => navigation.navigate('ProductPage')}>
-                  <Image
-                    style={{
-                      height: 125,
-                      width: '100%',
-
-                      resizeMode: 'cover',
-                      // backgroundColor: 'red',
-                    }}
-                    source={{uri: item.imageUrl}}
-                  />
-                </TouchableOpacity>
-                <View style={{marginStart: 5, marginTop: 5}}>
-                  <Text
-                    style={{
-                      alignSelf: 'flex-start',
-                      textAlign: 'center',
-                      fontSize: 12,
-                    }}>
-                    @Raiph
-                  </Text>
-                  <Text
-                    style={{
-                      alignSelf: 'flex-start',
-                      textAlign: 'center',
-                      fontSize: 10,
-                    }}>
-                    Carty
-                  </Text>
-                  <Text style={styles.View$}>$920</Text>
-                </View>
-              </View>
-            )}
-          />
+          <ProductList headerText={'Recently Treasured'} data={mostTreasure} />
         </View>
       </ScrollView>
     </View>

@@ -8,11 +8,12 @@ import addIcon from '../assets/icons/add.png';
 import huntIcon from '../assets/icons/hunt.png';
 import collectiveIcon from '../assets/icons/collective.png';
 import Header from './Header';
-import TreasuryCollection from 'views/pages/TreasuryCollection';
-import Hunt from 'views/pages/Hunt';
-import TreasureIt from 'views/pages/TreasureIt';
-import MyTreasury from 'views/pages/MyTreasury';
-import ProductPage from 'views/pages/ProductPage';
+//import TreasuryCollection from 'views/pages/TreasuryCollection';
+import Hunt from '../../src/views/pages/Hunt';
+import TreasureIt from '../../src/views/pages/TreasureIt';
+import MyTreasury from '../../src/views/pages/MyTreasury';
+import ProductPage from '../../src/views/pages/ProductPage';
+import TreasuryCollection from '../../src/views/pages/TreasuryCollection';
 
 const Tab = createBottomTabNavigator();
 

@@ -8,7 +8,7 @@ import {
   Dimensions,
   FlatList,
 } from 'react-native';
-import React from 'react';
+import React, {useEffect} from 'react';
 // import Icons from 'react-native-vector-icons/Entypo';
 import TwiterIcons from 'react-native-vector-icons/AntDesign';
 import LinearGradient from 'react-native-linear-gradient';
@@ -18,6 +18,8 @@ import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
 import {View, useWindowDimensions} from 'react-native';
 import {useNavigation, NavigationContainer} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import {getProfile} from '../../../store/actions/authActions';
+import {useSelector, useDispatch} from 'react-redux';
 
 import Iconsbar from 'react-native-vector-icons/Entypo';
 import Icons from 'react-native-vector-icons/Entypo';
@@ -29,6 +31,7 @@ const renderScene = SceneMap({
 
 const FirstRoute = () => {
   const navigation = useNavigation();
+
   return (
     <View style={{flex: 1, backgroundColor: 'white'}}>
       <View
@@ -254,6 +257,13 @@ const SecondRoute = () => {
 const {width, height} = Dimensions.get('window');
 
 const MyTreasury = () => {
+  const dispatch = useDispatch();
+  const authReducer = useSelector((state: any) => state?.authReducer);
+  const {isLoading, userDetails, followers, following, treasures} = authReducer;
+
+  useEffect(() => {
+    dispatch(getProfile());
+  }, []);
   const layout = useWindowDimensions();
   const navigation = useNavigation();
 
@@ -262,6 +272,7 @@ const MyTreasury = () => {
     {key: 'first', title: 'Treasures'},
     {key: 'second', title: 'Collection'},
   ]);
+
   const renderTabBar = (props: any) => (
     <TabBar
       {...props}
@@ -354,8 +365,9 @@ const MyTreasury = () => {
               marginStart: 10,
               marginEnd: 10,
               fontSize: 20,
+              width: '100%',
             }}>
-            Adam
+            {userDetails?.name}
           </Text>
           <TouchableOpacity
             onPress={() => navigation.navigate('ProfileScreen')}>
@@ -379,7 +391,10 @@ const MyTreasury = () => {
             </Text>
           </VStack>
           <VStack alignItems="center">
-            <Text style={{color: 'white', fontWeight: 'bold'}}>10.4k</Text>
+            <Text style={{color: 'white', fontWeight: 'bold'}}>
+              1.2k
+              {/* {userDetails?.followers} */}
+            </Text>
             <Text style={{color: 'white', fontWeight: '600'}}>Followers</Text>
           </VStack>
           <VStack alignItems="center">

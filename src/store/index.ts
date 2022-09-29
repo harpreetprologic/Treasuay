@@ -10,10 +10,13 @@ import { SET_USER_DETAILS } from './types';
 const store = createStore(rootReducer, applyMiddleware(thunk));
 
 AsyncStorage.getItem(KEY_USER).then(data => {
+    console.log('..stored', data);
     if(data) {
         store.dispatch({
             type: SET_USER_DETAILS,
-            payload: JSON.parse(data)
+            payload: {
+                userDetails: JSON.parse(data)
+            } 
         })
     }
 })

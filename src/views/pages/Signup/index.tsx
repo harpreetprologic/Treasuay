@@ -15,6 +15,8 @@ import {color} from 'native-base/lib/typescript/theme/styled-system';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Icons from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from '@react-navigation/native';
+import {useSelector, useDispatch} from 'react-redux';
+import {signup} from '../../../store/actions/authActions';
 
 import Button from '../../../views/components/inputs/Button';
 
@@ -27,21 +29,26 @@ import {
   FieldProps,
 } from 'formik';
 import * as yup from 'yup';
+
 import photo from '../../../assets/images/Photo.png';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {SafeAreaView} from 'react-native-safe-area-context';
 
 const {width, height} = Dimensions.get('window');
 type TFields = {
-  yourName: string;
-  treasuryName: string;
+  name: string;
+  treasury_name: string;
   email: string;
   password: string;
   passwordVisible: string;
 };
 
 const Signup = () => {
-  const navigation = useNavigation();
+  const dispatch = useDispatch();
+  const authReducer = useSelector((state: any) => state?.authReducer);
+  const {isLoading, userDetails} = authReducer;
+
+  const navigation: any = useNavigation();
   const validationSchema = yup.object().shape({
     email: yup
       .string()
@@ -49,14 +56,7 @@ const Signup = () => {
       .required('Email is required'),
     password: yup
       .string()
-      .matches(/\w*[a-z]\w*/, 'Password must have a small letter')
-      .matches(/\w*[A-Z]\w*/, 'Password must have a capital letter')
-      .matches(/\d/, 'Password must have a number')
-      .matches(
-        /[!@#$%^&*()\-_"=+{}; :,<.>]/,
-        'Password must have a special character',
-      )
-      .min(8, ({min}) => `Password must be at least ${min} characters`)
+      .min(6, ({min}) => `Password must be at least ${min} characters`)
       .required('Password is required'),
   });
   return (
@@ -79,17 +79,29 @@ const Signup = () => {
           <View style={{padding: 17}}>
             <Formik
               initialValues={{
-                yourName: '',
-                treasuryName: '',
+                name: '',
+                treasury_name: '',
                 email: '',
                 password: '',
                 passwordVisible: '',
               }}
               onSubmit={(values: {
+                name: string;
+                treasury_name: string;
                 email: string;
                 password: string;
                 passwordVisible: string;
-              }) => console.log(values)}
+              }) => {
+                dispatch(
+                  signup(
+                    values.name,
+                    values.treasury_name,
+                    values.email,
+                    values.password,
+                  ),
+                );
+              }}
+              // console.log(values)}
               validationSchema={validationSchema}>
               {({
                 handleChange,
@@ -102,9 +114,10 @@ const Signup = () => {
                 <>
                   <Field
                     component={TextField}
-                    name="yourName"
+                    name="name"
                     placeholder="Your Name (Erin Waish)"
                     keyboardType="email-address"
+                    autoCapitalize="none"
                     leftIcon={() => (
                       <Icons name="md-person-sharp" size={16} color="#000" />
                     )}
@@ -112,9 +125,10 @@ const Signup = () => {
 
                   <Field
                     component={TextField}
-                    name="treasuryName"
+                    name="treasury_name"
                     placeholder="Treasury Name (Erin Waish)"
                     keyboardType="email-address"
+                    autoCapitalize="none"
                     leftIcon={() => (
                       <Icons name="md-person-sharp" size={16} color="#000" />
                     )}
@@ -124,6 +138,7 @@ const Signup = () => {
                     name="email"
                     placeholder="Email Address"
                     keyboardType="email-address"
+                    autoCapitalize="none"
                     leftIcon={() => (
                       <MaterialCommunityIcons
                         name="email"
