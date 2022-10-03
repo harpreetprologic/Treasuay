@@ -1,0 +1,8 @@
+// auth Actions
+export const SET_AUTH_LOADING = 'SET_AUTH_LOADING';
+export const SET_USER_DETAILS = 'SET_USER_DETAILS';
+export const LOGOUT_USER = 'LOGOUT_USER';
+export const GET_USER_PROFILE='GET_USER_PROFILE'
+export const PUT_USER_PROFILE='PUT_USER_PROFILE'
+export const PUT_USER_PICTURE='PUT_USER_PICTURE'
+
