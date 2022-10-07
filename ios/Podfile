@@ -12,6 +12,10 @@ target 'Treasury' do
     :hermes_enabled => false
   )
 
+  permissions_path = '../node_modules/react-native-permissions/ios'
+  pod 'Permission-Camera', :path => "#{permissions_path}/Camera"
+  pod 'Permission-MediaLibrary', :path => "#{permissions_path}/MediaLibrary"
+
   target 'TreasuryTests' do
     inherit! :complete
     # Pods for testing

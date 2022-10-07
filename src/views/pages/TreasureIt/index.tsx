@@ -10,7 +10,7 @@ import {
   ImageBackground,
 } from 'react-native';
 import Clipboard from '@react-native-clipboard/clipboard';
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import {useNavigation, NavigationContainer} from '@react-navigation/native';
 import {color} from 'react-native-reanimated';
@@ -36,33 +36,8 @@ const TreasureIt = () => {
     const text = await Clipboard.getString();
     setCopiedText(text);
   };
-
-  return (
-    // <ScrollView style={{flex: 2}}>
-    <LinearGradient
-      colors={['#000000', '#5a5a5a', '#000000']}
-      style={styles.linearGradient}
-      start={{x: 0, y: 0.5}}
-      end={{x: 1, y: 0.5}}>
-      {/* <View
-        style={{
-          padding: 10,
-          width: '28%',
-          backgroundColor: 'red',
-          alignItems: 'center',
-        }}> */}
-      {/* <Image
-          style={{
-            height: 80,
-            width: 80,
-            resizeMode: 'stretch',
-            borderRadius: 500,
-            borderColor: 'black',
-            borderWidth: 1,
-          }}
-          source={require('../../../assets/images/dummyProduct.png')}></Image>
-        <Text>Treasury Items</Text>
-      </View> */}
+  const header = useCallback(
+    () => (
       <Text
         style={{
           color: 'white',
@@ -74,7 +49,11 @@ const TreasureIt = () => {
         }}>
         Treasure It!
       </Text>
-
+    ),
+    [],
+  );
+  const box = useCallback(
+    () => (
       <View
         style={{
           flex: 0.8,
@@ -101,18 +80,6 @@ const TreasureIt = () => {
             alignItems: 'center',
           }}
           onPress={fetchCopiedText}>
-          {/* <View
-            style={{
-              borderColor: 'white',
-              borderRadius: 7,
-              width: '92%',
-              flex: 0.9,
-              backgroundColor: '#1c1c1c',
-              borderWidth: 1,
-              alignSelf: 'center',
-              borderStyle: 'dashed',
-              alignItems: 'center',
-            }}> */}
           <View style={{marginTop: 22}}>
             <TouchableOpacity onPress={copyToClipboard}>
               <Text
@@ -151,37 +118,37 @@ const TreasureIt = () => {
           {/* </View> */}
         </TouchableOpacity>
       </View>
-
-      <Text
-        style={{
-          color: 'white',
-          marginTop: 44,
-          alignSelf: 'center',
-          fontSize: 20,
-          fontWeight: '700',
-        }}>
-        Not Sure What To Treasure?
-      </Text>
-      <Text
-        style={{
-          color: 'white',
-          alignSelf: 'center',
-          paddingTop: 11,
-          fontSize: 19,
-        }}>
-        Try one of these :{copiedText}
-      </Text>
-      {/* <Text style={{color: 'white'}}>{data}</Text> */}
-      {/* <View style={styles.container}>
-        <TouchableOpacity onPress={copyToClipboard}>
-          <Text style={{color: 'white'}}>Click here to copy to Clipboard</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={fetchCopiedText}>
-          <Text style={{color: 'white'}}>View copied text</Text>
-        </TouchableOpacity>
-
-        <Text style={styles.copiedText}>{copiedText}</Text>
-      </View> */}
+    ),
+    [],
+  );
+  const text = useCallback(
+    () => (
+      <View>
+        <Text
+          style={{
+            color: 'white',
+            marginTop: 44,
+            alignSelf: 'center',
+            fontSize: 20,
+            fontWeight: '700',
+          }}>
+          Not Sure What To Treasure?
+        </Text>
+        <Text
+          style={{
+            color: 'white',
+            alignSelf: 'center',
+            paddingTop: 11,
+            fontSize: 19,
+          }}>
+          Try one of these :{copiedText}
+        </Text>
+      </View>
+    ),
+    [],
+  );
+  const flatList = useCallback(
+    () => (
       <View
         style={{
           backgroundColor: 'black',
@@ -268,8 +235,21 @@ const TreasureIt = () => {
           )}
         />
       </View>
+    ),
+    [],
+  );
+
+  return (
+    <LinearGradient
+      colors={['#000000', '#5a5a5a', '#000000']}
+      style={styles.linearGradient}
+      start={{x: 0, y: 0.5}}
+      end={{x: 1, y: 0.5}}>
+      {header()}
+      {box()}
+      {text()}
+      {flatList()}
     </LinearGradient>
-    // </ScrollView>
   );
 };
 

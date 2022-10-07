@@ -11,14 +11,14 @@ import {
   StatusBar,
   useColorScheme,
 } from 'react-native';
-import React, {useState, FC, ReactElement, useMemo} from 'react';
+import React, {useState, FC, ReactElement, useMemo, useCallback} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import SearchBar from 'react-native-dynamic-search-bar';
 import Icons from 'react-native-vector-icons/FontAwesome';
 import {useNavigation, NavigationContainer} from '@react-navigation/native';
 const {width, height} = Dimensions.get('window');
 
-import {Colors} from 'react-native/Libraries/NewAppScreen';
+import {Colors, Header} from 'react-native/Libraries/NewAppScreen';
 import MasonryList from 'reanimated-masonry-list';
 interface Furniture {
   id: string;
@@ -214,6 +214,65 @@ const Hunt: FC = () => {
     return <FurnitureCard item={item} />;
   };
 
+  const header = useCallback(
+    () => (
+      <View style={{flexDirection: 'row'}}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('HuntSearch')}
+          style={[
+            styles.input,
+            {
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            },
+          ]}>
+          <TextInput
+            // style={styles.input}
+            onChangeText={setSearch}
+            value={search}
+            placeholder="Cherie Bach"
+            placeholderTextColor={'#656565'}
+          />
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={{
+            justifyContent: 'center',
+            borderWidth: 1,
+            height: 55,
+            marginTop: 12,
+            width: '12%',
+            alignItems: 'center',
+            borderRadius: 10,
+            backgroundColor: 'black',
+          }}>
+          <Icons name="exchange" size={20} color="white" />
+        </TouchableOpacity>
+      </View>
+    ),
+    [],
+  );
+  const productCatagories = useCallback(
+    () => (
+      <View style={{height: '90%'}}>
+        <MasonryList
+          showsVerticalScrollIndicator={false}
+          keyExtractor={(item: Furniture): string => item.id}
+          ListHeaderComponent={<View />}
+          contentContainerStyle={{
+            paddingHorizontal: 10,
+            paddingBottom: 50,
+            alignSelf: 'stretch',
+          }}
+          numColumns={2}
+          data={data}
+          renderItem={renderItem}
+        />
+      </View>
+    ),
+    [],
+  );
+
   return (
     <SafeAreaView style={{flex: 1}}>
       <View
@@ -221,56 +280,10 @@ const Hunt: FC = () => {
           paddingRight: 5,
           paddingLeft: 5,
         }}>
-        <View style={{flexDirection: 'row'}}>
-          <TouchableOpacity
-            onPress={() => navigation.navigate('HuntSearch')}
-            style={[
-              styles.input,
-              {
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-              },
-            ]}>
-            <TextInput
-              // style={styles.input}
-              onChangeText={setSearch}
-              value={search}
-              placeholder="Cherie Bach"
-              placeholderTextColor={'#656565'}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={{
-              justifyContent: 'center',
-              borderWidth: 1,
-              height: 55,
-              marginTop: 12,
-              width: '12%',
-              alignItems: 'center',
-              borderRadius: 10,
-              backgroundColor: 'black',
-            }}>
-            <Icons name="exchange" size={20} color="white" />
-          </TouchableOpacity>
-        </View>
+        {header()}
         <Text style={{margin: 4}}>245 results</Text>
         <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-        <View style={{height: '90%'}}>
-          <MasonryList
-            showsVerticalScrollIndicator={false}
-            keyExtractor={(item: Furniture): string => item.id}
-            ListHeaderComponent={<View />}
-            contentContainerStyle={{
-              paddingHorizontal: 10,
-              paddingBottom: 50,
-              alignSelf: 'stretch',
-            }}
-            numColumns={2}
-            data={data}
-            renderItem={renderItem}
-          />
-        </View>
+        {productCatagories()}
       </View>
     </SafeAreaView>
   );
@@ -281,7 +294,6 @@ const styles = StyleSheet.create({
   input: {
     height: 55,
     marginTop: 12,
-    // borderWidth: 1,
     padding: 10,
     fontSize: 17,
     color: 'black',

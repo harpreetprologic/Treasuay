@@ -11,6 +11,10 @@ const TextField = (props: any) => {
     leftIcon,
     rightIcon,
     isPassword,
+    textInputStyle,
+    multiline,
+    variant = 'primary',
+    label = '',
     ...inputProps
   } = props;
 
@@ -20,14 +24,21 @@ const TextField = (props: any) => {
 
   return (
     <View>
+      {variant === 'outlined' ? <Text>{label}</Text> : null}
       <View
-        style={{
-          width: '100%',
-          height: 50,
-          flexDirection: 'row',
-          alignItems: 'center',
-          borderBottomWidth: 1,
-        }}>
+        style={[
+          {
+            width: '100%',
+            height: multiline ? 120 : 50,
+            flexDirection: 'row',
+            alignItems: 'center',
+          },
+          variant === 'primary'
+            ? {
+                borderBottomWidth: 1,
+              }
+            : {borderWidth: 1, marginBottom: 15},
+        ]}>
         {!!leftIcon && (
           <View
             style={{
@@ -42,7 +53,11 @@ const TextField = (props: any) => {
         )}
 
         <TextInput
-          style={[styles.textInput, hasError && styles.errorInput]}
+          style={[
+            styles.textInput,
+            textInputStyle,
+            hasError && styles.errorInput,
+          ]}
           value={value}
           onChangeText={(text: string) => onChange(name)(text)}
           onBlur={() => {
@@ -51,6 +66,7 @@ const TextField = (props: any) => {
           }}
           {...inputProps}
           secureTextEntry={isPassword && !passwordVisible}
+          multiline={multiline}
         />
         {!!rightIcon && (
           <View
@@ -101,7 +117,7 @@ const TextField = (props: any) => {
 
 const styles = StyleSheet.create({
   textInput: {
-    height: 20,
+    // height: 20,
     width: '95%',
     backgroundColor: 'white',
     // borderWidth: StyleSheet.hairlineWidth,

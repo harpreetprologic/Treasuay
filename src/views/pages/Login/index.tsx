@@ -139,7 +139,7 @@ const Login = () => {
                   <TouchableOpacity style={{alignSelf: 'flex-end'}}>
                     <Text
                       style={styles.forgotView}
-                      onPress={() => navigation.navigate('MainDrawer')}>
+                      onPress={() => navigation.navigate('RecoveryPassword')}>
                       Forgot Password?
                     </Text>
                   </TouchableOpacity>

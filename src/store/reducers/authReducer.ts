@@ -22,9 +22,9 @@ export default function(state=initialState, action: any) {
             return {
                 ...state,
                 userDetails: payload.userDetails,
-                followers: payload.followers,
-                following: payload.following,
-                treasures: payload.treasures,
+                followers: payload.followers ?? state.followers,
+                following: payload.following ?? state.following,
+                treasures: payload.treasures ?? state.treasures,
                 isLoading: false
             }
 

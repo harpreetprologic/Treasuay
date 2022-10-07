@@ -17,6 +17,9 @@ import MyTreasury from '../views/pages/MyTreasury';
 import Header from './Header';
 import ProfileScreen from '../views/pages/ProfileScreen';
 import HuntSearch from '../views/pages/HuntSearch';
+import ForgetPs from '../views/pages/ForgetPs';
+import RecoveryPassword from '../views/pages/RecoveryPassword';
+import Otp from '../views/pages/Otp';
 
 const Stack = createNativeStackNavigator();
 
@@ -43,6 +46,21 @@ const MainNavigator = () => {
           <Stack.Screen
             name="Signup"
             component={Signup}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="ForgotPassword"
+            component={ForgetPs}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="RecoveryPassword"
+            component={RecoveryPassword}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="Otp"
+            component={Otp}
             options={{headerShown: false}}
           />
         </>

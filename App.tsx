@@ -4,6 +4,7 @@ import {NativeBaseProvider} from 'native-base';
 import Routes from './src/routes';
 import {Provider} from 'react-redux';
 import store from './src/store';
+import Internet from './src/views/pages/Internet';
 
 const config = {
   dependencies: {
@@ -21,6 +22,7 @@ const App = () => {
     <Provider store={store}>
       <NativeBaseProvider config={config}>
         <Routes />
+        <Internet />
       </NativeBaseProvider>
     </Provider>
   );

@@ -17,13 +17,20 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="BootSplashLogo" translatesAutoresizingMaskIntoConstraints="NO" id="Gcq-se-Qo6" customClass="RCTUIImageViewAnimated">
-                                <rect key="frame" x="73" y="206" width="217" height="178"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="BootSplashLogo" translatesAutoresizingMaskIntoConstraints="NO" id="cI0-zn-t1C">
+                                <rect key="frame" x="87.5" y="233.5" width="200" height="200"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="200" id="C3L-CG-9yz"/>
+                                    <constraint firstAttribute="width" constant="200" id="NVv-3r-Vt5"/>
+                                </constraints>
                             </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Bcu-3y-fUS"/>
                         <color key="backgroundColor" systemColor="systemYellowColor"/>
+                        <constraints>
+                            <constraint firstItem="cI0-zn-t1C" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="6vW-F4-YHk"/>
+                            <constraint firstItem="cI0-zn-t1C" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="l4o-y7-HCt"/>
+                        </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>

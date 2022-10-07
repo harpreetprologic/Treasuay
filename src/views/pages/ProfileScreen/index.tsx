@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback, useState, Component} from 'react';
 import {
   Text,
   View,
@@ -9,238 +9,268 @@ import {
   TouchableOpacity,
   Dimensions,
   TextInput,
-  Button,
   ScrollView,
   FlatList,
+  Platform,
+  Alert,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {useNavigation, NavigationContainer} from '@react-navigation/native';
 import NoteIcons from 'react-native-vector-icons/SimpleLineIcons';
-import Iconsbar from 'react-native-vector-icons/Octicons';
-import Icons from 'react-native-vector-icons/AntDesign';
+import {getProfile, updateProfile} from '../../../store/actions/authActions';
+import {useSelector, useDispatch} from 'react-redux';
+import {Formik, FormikProps, Field} from 'formik';
+import * as yup from 'yup';
+import PTextField from '../../../views/components/inputs/PTextField';
+import Button from '../../../views/components/inputs/Button';
+import PhotoModal from './PhotoModal';
+import ImagePicker from 'react-native-image-crop-picker';
+import {authorize} from 'react-native-app-auth';
+import {BASE_URL} from '../../../../src/constants/keys';
+
+const {width, height} = Dimensions.get('window');
+
+type TFields = {
+  name: string;
+  about: string;
+};
 
 const ProfileScreen = () => {
-  const [name, setName] = React.useState('');
-  const [email, setEmail] = React.useState('');
-  const [address, setAddress] = React.useState('');
-  const [number, setNumber] = React.useState('');
-  const [password, setPassword] = React.useState(' ');
+  const dispatch = useDispatch();
+  const authReducer = useSelector((state: any) => state?.authReducer);
+  const {isLoading, userDetails} = authReducer;
+  const navigation: any = useNavigation();
+  const [photoModalOpen, setPhotoModalOpen] = useState(false);
+  const [ModalOpen, setModalOpen] = useState(false);
 
-  const navigation = useNavigation();
+  const validationSchema = yup.object().shape({
+    name: yup.string().required('Name is required'),
+    about: yup.string().required('About is required'),
+  });
+
+  const lineargradient = useCallback(
+    () => (
+      <LinearGradient
+        start={{x: 0.1, y: 0.25}}
+        end={{x: 0.5, y: 1.1}}
+        locations={[0, 0.5, 0.6]}
+        colors={['#1770f6', '#3a629f', '#3a629f']}
+        style={styles.linearGradient}>
+        <View
+          style={{
+            width: '28%',
+            alignItems: 'center',
+            alignSelf: 'center',
+            marginTop: 15,
+          }}>
+          <TouchableOpacity
+            style={{width: '100%', height: 100}}
+            onPress={() => setPhotoModalOpen(true)}>
+            <ImageBackground
+              style={{
+                height: 80,
+                width: 80,
+                borderRadius: 100,
+                borderColor: 'black',
+                alignSelf: 'center',
+                borderWidth: 2,
+                justifyContent: 'flex-end',
+                alignItems: 'flex-end',
+              }}
+              imageStyle={{borderRadius: 100}}
+              source={{uri: `${BASE_URL}/${userDetails.profilePic}`}}>
+              <TouchableOpacity
+                onPress={onSelectPhoto}
+                // activeOpacity={0.8}
+                style={{
+                  paddingStart: 55,
+                  alignSelf: 'flex-end',
+                  width: '115%',
+                  paddingLeft: 100,
+                  paddingTop: 53,
+                }}>
+                <View
+                  style={{
+                    borderColor: 'white',
+                    // borderWidth: 1,
+
+                    borderRadius: 20,
+                    alignItems: 'flex-start',
+                    justifyContent: 'flex-start',
+                    paddingStart: 2,
+                    width: 30,
+                    height: 30,
+                    alignSelf: 'flex-end',
+                    marginTop: 10,
+                  }}>
+                  <View
+                    style={{
+                      backgroundColor: '#000a',
+                      borderRadius: 30,
+                    }}>
+                    <NoteIcons
+                      style={{
+                        padding: 4,
+                        paddingBottom: 6,
+                        paddingStart: 12,
+                        alignSelf: 'flex-start',
+
+                        width: '100%',
+                        height: '110%',
+                        borderRadius: 60,
+                        marginTop: 3,
+                      }}
+                      name="note"
+                      size={18}
+                      color="white"
+                    />
+                  </View>
+                </View>
+              </TouchableOpacity>
+            </ImageBackground>
+          </TouchableOpacity>
+          <View style={{flexDirection: 'row', marginBottom: 10}}>
+            <Text
+              style={{
+                color: 'white',
+                marginTop: 5,
+                fontSize: 20,
+              }}>
+              {userDetails.name}
+            </Text>
+          </View>
+        </View>
+      </LinearGradient>
+    ),
+    [userDetails.name, userDetails.profilePic],
+  );
+
+  const usedetail = useCallback(
+    () => (
+      <View style={{padding: 9}}>
+        <Formik
+          initialValues={{
+            name: userDetails.name ?? '',
+            about: userDetails.about ?? '',
+          }}
+          onSubmit={(values: {name: string; about: string}) => {
+            dispatch(updateProfile(values.name, values.about));
+          }}
+          validationSchema={validationSchema}>
+          {({
+            handleChange,
+            handleBlur,
+            handleSubmit,
+            values,
+            errors,
+            isValid,
+          }: FormikProps<TFields>) => (
+            <>
+              <Field
+                component={PTextField}
+                name="name"
+                label="Name"
+                placeholder="Your Name (Erin Waish)"
+                variant="outlined"
+                // backgroundColor="red"
+                marginTop={0}
+              />
+
+              <Field
+                component={PTextField}
+                name="about"
+                label="About"
+                placeholder="Write your about..."
+                multiline
+                variant="outlined"
+                marginTop={0}
+              />
+
+              <View>
+                <Button
+                  variant="primary"
+                  label="Update"
+                  onPress={handleSubmit}
+                  disabled={!isValid}
+                />
+              </View>
+            </>
+          )}
+        </Formik>
+      </View>
+    ),
+    [],
+  );
+
+  const onSelectPhoto = async () => {
+    try {
+      const image = await ImagePicker.openPicker({
+        width: 300,
+        height: 400,
+        cropping: true,
+      });
+
+      console.log('..image', image);
+      const formdata = new FormData();
+      formdata.append('profilePic', {
+        uri: image.path,
+        type: image.mime,
+        name: image.filename,
+      });
+
+      console.log('..form', formdata);
+      let res = await fetch('http://192.168.1.190:8000/api/auth/upload/', {
+        method: 'put',
+        body: formdata,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${userDetails.token}`,
+        },
+      });
+
+      let responseJson = await res.json();
+      console.log('..response', responseJson);
+      dispatch(getProfile());
+    } catch (error: any) {
+      console.log('...Error in onSelectPhoto', error);
+    }
+  };
+
   return (
     <SafeAreaView style={styles.container}>
+      <PhotoModal
+        open={photoModalOpen}
+        onClose={() => setPhotoModalOpen(false)}
+      />
       <ScrollView>
-        <LinearGradient
-          start={{x: 0.1, y: 0.25}}
-          end={{x: 0.5, y: 1.1}}
-          locations={[0, 0.5, 0.6]}
-          colors={['#1770f6', '#3a629f', '#3a629f']}
-          style={styles.linearGradient}>
-          {/* <View
-            style={{
-              borderBottomWidth: 1,
-              borderTopWidth: 1,
-              height: 45,
-              justifyContent: 'space-between',
-              borderColor: '#C4C4C4',
-              flexDirection: 'row',
-              alignItems: 'center',
-              padding: 5,
-            }}>
-            <TouchableOpacity onPress={() => navigation.navigate('MyTreasury')}>
-              <Icons name="left" size={19} color="#C4C4C4" />
-            </TouchableOpacity>
-            <Text
-              style={{
-                alignSelf: 'center',
-                fontSize: 22,
-                //   fontWeight: '600',
-                fontStyle: 'normal',
-                fontFamily: 'Playfair Display',
-                color: 'white',
-                fontWeight: 'bold',
-              }}>
-              Profile
-            </Text>
-            <TouchableOpacity>
-              <Iconsbar name="three-bars" size={19} color="#C4C4C4" />
-            </TouchableOpacity>
-          </View> */}
-
-          <View
-            style={{
-              width: '28%',
-              alignItems: 'center',
-              alignSelf: 'center',
-              marginTop: 15,
-            }}>
-            <TouchableOpacity>
-              <ImageBackground
-                style={{
-                  height: 80,
-                  width: 80,
-                  // resizeMode: 'stretch',
-                  borderRadius: 500,
-                  borderColor: 'black',
-                  alignSelf: 'center',
-                  borderWidth: 2,
-                  justifyContent: 'flex-end',
-
-                  // borderWidth: 1,
-                }}
-                source={require('../../../assets/images/profile.png')}>
-                <TouchableOpacity
-                  style={{
-                    // padding: 4,
-                    alignSelf: 'flex-end',
-                  }}>
-                  <NoteIcons name="note" size={20} color="black" />
-                </TouchableOpacity>
-              </ImageBackground>
-            </TouchableOpacity>
-            <View style={{flexDirection: 'row', marginBottom: 10}}>
-              <Text
-                style={{
-                  color: 'white',
-                  marginTop: 11,
-                  fontSize: 20,
-                }}>
-                Adam
-              </Text>
-              {/* <TouchableOpacity style={{marginTop: 11, padding: 3}}>
-                <NoteIcons name="note" size={18} color="white" />
-              </TouchableOpacity> */}
-            </View>
-          </View>
-          {/* <View style={{marginStart: 5, marginTop: 15, width: '90%'}}>
-            <Text style={{color: '#cdd8e7', fontSize: 12}}>
-              Hi! Welcome to my Treasury. I'm a singer-songwiter
-            </Text>
-            <Text style={{color: '#cdd8e7', fontSize: 12, paddingTop: 5}}>
-              based in Los Angeles carving space in the industry.
-            </Text>
-            <Text style={{color: '#cdd8e7', fontSize: 11, paddingTop: 5}}>
-              My style is born from vintage wintage shops from around the
-            </Text>
-            <Text
-              style={{
-                color: '#cdd8e7',
-                fontSize: 12,
-                paddingTop: 5,
-                marginBottom: 5,
-              }}>
-              world.
-            </Text>
-          </View> */}
-        </LinearGradient>
-        <View style={{padding: 10}}>
-          <Text style={{fontSize: 22, fontWeight: '600'}}>Username</Text>
-          <TextInput
-            style={styles.input}
-            onChangeText={setName}
-            value={name}
-            placeholder="Enter your full name"
-          />
-
-          <Text style={{fontSize: 22, fontWeight: '600', marginTop: 5}}>
-            Email
-          </Text>
-          <TextInput
-            style={styles.input}
-            onChangeText={setEmail}
-            value={email}
-            placeholder="Enter your email"
-          />
-          {/* <Text style={{fontSize: 22, fontWeight: '600', marginTop: 5}}>
-            Address
-          </Text>
-          <TextInput
-            style={styles.input}
-            onChangeText={setAddress}
-            value={address}
-            placeholder="Enter your address"
-          /> */}
-          <Text style={{fontSize: 22, fontWeight: '600', marginTop: 5}}>
-            Phone Number
-          </Text>
-          <TextInput
-            style={styles.input}
-            onChangeText={setNumber}
-            value={number}
-            placeholder="Enter your phone number"
-          />
-          <Text style={{fontSize: 22, fontWeight: '600', marginTop: 5}}>
-            Bio details
-          </Text>
-          {/* <TextInput
-            style={styles.input1}
-            onChangeText={setPassword}
-            value={password}
-            placeholder="Enter your password"
-          /> */}
-          <TouchableOpacity>
-            <View style={{marginStart: 5, marginTop: 15, width: '90%'}}>
-              <Text style={{color: '#d4d4d4', fontSize: 12}}>
-                Hi! Welcome to my Treasury. I'm a singer-songwiter
-              </Text>
-              <Text style={{color: '#d4d4d4', fontSize: 12, paddingTop: 5}}>
-                based in Los Angeles carving space in the industry.
-              </Text>
-              <Text style={{color: '#d4d4d4', fontSize: 11, paddingTop: 5}}>
-                My style is born from vintage wintage shops from around the
-              </Text>
-              <Text
-                style={{
-                  color: '#d4d4d4',
-                  fontSize: 12,
-                  paddingTop: 5,
-                  marginBottom: 5,
-                }}>
-                world.
-              </Text>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={{
-              width: '100%',
-              borderWidth: 1,
-              alignItems: 'center',
-              height: 30,
-              justifyContent: 'center',
-              marginTop: 15,
-              backgroundColor: '#3a629f',
-            }}>
-            <Text style={{fontSize: 17, color: 'white'}}>UPDATE</Text>
-          </TouchableOpacity>
-        </View>
+        {lineargradient()}
+        {usedetail()}
       </ScrollView>
     </SafeAreaView>
   );
 };
 export default ProfileScreen;
 const styles = StyleSheet.create({
-  container: {
-    //flex: 1,
-  },
-  text: {
-    fontSize: 25,
-    fontWeight: '500',
-  },
+  container: {},
+  // text: {
+  //   fontSize: 25,
+  //   fontWeight: '500',
+  // },
   linearGradient: {
     paddingLeft: 15,
     paddingRight: 15,
-    borderRadius: 5,
+    // borderRadius: 5,
   },
-  input: {
-    height: 40,
-    marginTop: 10,
-    borderBottomWidth: 1,
-    padding: 5,
-  },
-  input1: {
-    height: 80,
-    marginTop: 10,
-    borderBottomWidth: 1,
-    padding: 5,
-  },
+  // input: {
+  //   height: 40,
+  //   marginTop: 10,
+  //   borderBottomWidth: 1,
+  //   padding: 5,
+  // },
+  // input1: {
+  //   height: 80,
+  //   marginTop: 10,
+  //   borderBottomWidth: 1,
+  //   padding: 5,
+  // },
 });

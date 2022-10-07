@@ -1,17 +1,13 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import {
   Text,
   View,
   StyleSheet,
   Image,
-  ImageBackground,
   TouchableOpacity,
   Dimensions,
-  TextInput,
 } from 'react-native';
-import {FormControl, Input, WarningOutlineIcon} from 'native-base';
 import TextField from '../../../views/components/inputs/TextField';
-import {color} from 'native-base/lib/typescript/theme/styled-system';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Icons from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from '@react-navigation/native';
@@ -20,14 +16,7 @@ import {signup} from '../../../store/actions/authActions';
 
 import Button from '../../../views/components/inputs/Button';
 
-import {
-  Formik,
-  FormikHelpers,
-  FormikProps,
-  Form,
-  Field,
-  FieldProps,
-} from 'formik';
+import {Formik, FormikProps, Field} from 'formik';
 import * as yup from 'yup';
 
 import photo from '../../../assets/images/Photo.png';
@@ -47,7 +36,6 @@ const Signup = () => {
   const dispatch = useDispatch();
   const authReducer = useSelector((state: any) => state?.authReducer);
   const {isLoading, userDetails} = authReducer;
-
   const navigation: any = useNavigation();
   const validationSchema = yup.object().shape({
     email: yup
@@ -59,191 +47,157 @@ const Signup = () => {
       .min(6, ({min}) => `Password must be at least ${min} characters`)
       .required('Password is required'),
   });
+
+  const logo = useCallback(
+    () => (
+      <View
+        style={{
+          alignItems: 'center',
+          width: '100%',
+          height: height / 3,
+          backgroundColor: 'red',
+          marginBottom: 40,
+        }}>
+        <Image
+          source={photo}
+          resizeMode="cover"
+          style={{width: '100%', height: '100%'}}></Image>
+      </View>
+    ),
+    [],
+  );
+
+  const information = useCallback(
+    () => (
+      <View style={{padding: 17}}>
+        <Formik
+          initialValues={{
+            name: '',
+            treasury_name: '',
+            email: '',
+            password: '',
+            passwordVisible: '',
+          }}
+          onSubmit={(values: {
+            name: string;
+            treasury_name: string;
+            email: string;
+            password: string;
+            passwordVisible: string;
+          }) => {
+            dispatch(
+              signup(
+                values.name,
+                values.treasury_name,
+                values.email,
+                values.password,
+              ),
+            );
+          }}
+          validationSchema={validationSchema}>
+          {({
+            handleChange,
+            handleBlur,
+            handleSubmit,
+            values,
+            errors,
+            isValid,
+          }: FormikProps<TFields>) => (
+            <>
+              <Field
+                component={TextField}
+                name="name"
+                placeholder="Your Name (Erin Waish)"
+                keyboardType="email-address"
+                autoCapitalize="none"
+                leftIcon={() => (
+                  <Icons name="md-person-sharp" size={16} color="#000" />
+                )}
+              />
+
+              <Field
+                component={TextField}
+                name="treasury_name"
+                placeholder="Treasury Name (Erin Waish)"
+                keyboardType="email-address"
+                autoCapitalize="none"
+                leftIcon={() => (
+                  <Icons name="md-person-sharp" size={16} color="#000" />
+                )}
+              />
+              <Field
+                component={TextField}
+                name="email"
+                placeholder="Email Address"
+                keyboardType="email-address"
+                autoCapitalize="none"
+                leftIcon={() => (
+                  <MaterialCommunityIcons name="email" size={16} color="#000" />
+                )}
+              />
+              <Field
+                component={TextField}
+                name="password"
+                placeholder="Password"
+                leftIcon={() => (
+                  <MaterialCommunityIcons name="lock" size={16} color="#000" />
+                )}
+                isPassword={true}
+              />
+
+              <View>
+                <TouchableOpacity
+                  style={{alignSelf: 'flex-end'}}
+                  onPress={() => navigation.navigate('Tabs')}>
+                  <Text style={styles.forgotView}>Forgot Password?</Text>
+                </TouchableOpacity>
+              </View>
+              <View>
+                <Button
+                  variant="primary"
+                  label="Sign up"
+                  onPress={handleSubmit}
+                  disabled={!isValid}
+                />
+              </View>
+
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  marginTop: 20,
+                  paddingHorizontal: 16,
+                }}>
+                <View
+                  style={{
+                    backgroundColor: '#000',
+                    width: '110%',
+                    height: 1,
+                  }}
+                />
+                <Text style={styles.orView}>or</Text>
+              </View>
+
+              <Button
+                style={{marginTop: 24}}
+                variant="outlined"
+                label="Login"
+                onPress={() => navigation.navigate('Login')}
+              />
+            </>
+          )}
+        </Formik>
+      </View>
+    ),
+    [],
+  );
   return (
     <KeyboardAwareScrollView>
       <SafeAreaView>
         <View>
-          <View
-            style={{
-              alignItems: 'center',
-              width: '100%',
-              height: height / 3,
-              backgroundColor: 'red',
-              marginBottom: 40,
-            }}>
-            <Image
-              source={photo}
-              resizeMode="cover"
-              style={{width: '100%', height: '100%'}}></Image>
-          </View>
-          <View style={{padding: 17}}>
-            <Formik
-              initialValues={{
-                name: '',
-                treasury_name: '',
-                email: '',
-                password: '',
-                passwordVisible: '',
-              }}
-              onSubmit={(values: {
-                name: string;
-                treasury_name: string;
-                email: string;
-                password: string;
-                passwordVisible: string;
-              }) => {
-                dispatch(
-                  signup(
-                    values.name,
-                    values.treasury_name,
-                    values.email,
-                    values.password,
-                  ),
-                );
-              }}
-              // console.log(values)}
-              validationSchema={validationSchema}>
-              {({
-                handleChange,
-                handleBlur,
-                handleSubmit,
-                values,
-                errors,
-                isValid,
-              }: FormikProps<TFields>) => (
-                <>
-                  <Field
-                    component={TextField}
-                    name="name"
-                    placeholder="Your Name (Erin Waish)"
-                    keyboardType="email-address"
-                    autoCapitalize="none"
-                    leftIcon={() => (
-                      <Icons name="md-person-sharp" size={16} color="#000" />
-                    )}
-                  />
-
-                  <Field
-                    component={TextField}
-                    name="treasury_name"
-                    placeholder="Treasury Name (Erin Waish)"
-                    keyboardType="email-address"
-                    autoCapitalize="none"
-                    leftIcon={() => (
-                      <Icons name="md-person-sharp" size={16} color="#000" />
-                    )}
-                  />
-                  <Field
-                    component={TextField}
-                    name="email"
-                    placeholder="Email Address"
-                    keyboardType="email-address"
-                    autoCapitalize="none"
-                    leftIcon={() => (
-                      <MaterialCommunityIcons
-                        name="email"
-                        size={16}
-                        color="#000"
-                      />
-                    )}
-                    // rightIcon={() => (
-                    //   <MaterialCommunityIcons
-                    //     name="check"
-                    //     size={16}
-                    //     color="#000"
-                    //   />
-                    // )}
-                  />
-                  <Field
-                    component={TextField}
-                    name="password"
-                    placeholder="Password"
-                    leftIcon={() => (
-                      <MaterialCommunityIcons
-                        name="lock"
-                        size={16}
-                        color="#000"
-                      />
-                    )}
-                    isPassword={true}
-                  />
-
-                  <View>
-                    <TouchableOpacity
-                      style={{alignSelf: 'flex-end'}}
-                      onPress={() => navigation.navigate('Tabs')}>
-                      <Text style={styles.forgotView}>Forgot Password?</Text>
-                    </TouchableOpacity>
-                  </View>
-                  <View>
-                    <Button
-                      variant="primary"
-                      label="Sign up"
-                      onPress={handleSubmit}
-                      disabled={!isValid}
-                    />
-
-                    {/* <TouchableOpacity
-                      onPress={handleSubmit}
-                      disabled={!isValid}
-                      // onPress={() => navigation.navigate('Signup')}
-                      style={styles.button1}>
-                      <Text
-                        style={{
-                          fontWeight: 'bold',
-                          fontSize: 18,
-                          color: 'white',
-                        }}>
-                        Sign up
-                      </Text>
-                    </TouchableOpacity> */}
-                  </View>
-
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      marginTop: 20,
-                      paddingHorizontal: 16,
-                    }}>
-                    <View
-                      style={{
-                        backgroundColor: '#000',
-                        width: '110%',
-                        height: 1,
-                      }}
-                    />
-                    <Text style={styles.orView}>or</Text>
-                  </View>
-
-                  <Button
-                    style={{marginTop: 24}}
-                    variant="outlined"
-                    label="Login"
-                    onPress={() => navigation.navigate('Login')}
-                  />
-
-                  {/* <TouchableOpacity
-                    //   onPress={handleSubmit}
-                    //   disabled={!isValid}
-                    onPress={() => navigation.navigate('Login')}
-                    style={styles.button}>
-                    <Text
-                      style={{
-                        fontWeight: 'bold',
-                        fontSize: 18,
-                        color: 'black',
-                      }}>
-                      Log in
-                    </Text>
-                  </TouchableOpacity> */}
-
-                  {/* <Button type title="SIGN UP" disabled={!isValid} /> */}
-                </>
-              )}
-            </Formik>
-          </View>
+          {logo()}
+          {information()}
         </View>
       </SafeAreaView>
     </KeyboardAwareScrollView>

@@ -51,7 +51,6 @@
 		75D2332034324C17BFEDBAE2 /* Montserrat-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5012F83C79864266848DD5D7 /* Montserrat-ExtraBold.ttf */; };
 		7A72C5E5027C418DA50C9817 /* PlayfairDisplay-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A37E5A24D59B490690509E0E /* PlayfairDisplay-Medium.ttf */; };
 		7EC0A7FF52B5429D8CB2BA64 /* Montserrat-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F2A00D1E479C4211853AEA22 /* Montserrat-LightItalic.ttf */; };
-		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		84DFA9AC3E29482E842B492F /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F5077A1640A94F59824B3810 /* Roboto-Regular.ttf */; };
 		8737A653DA624434B61FD831 /* Roboto-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 852CB414119A4B60A9DB6B0B /* Roboto-Medium.ttf */; };
 		879DF89991B14DB58721901A /* Roboto-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 86A332A0FE524091A20E580D /* Roboto-Black.ttf */; };
@@ -61,6 +60,8 @@
 		9311A55D05F644559868F4B8 /* Montserrat-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C0A83C0386F24D988F6C9E41 /* Montserrat-BoldItalic.ttf */; };
 		96D5AF4B5BA34F129ED01C11 /* Roboto-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7B2BCE0E631B4910AF998909 /* Roboto-MediumItalic.ttf */; };
 		9A826689B8E14846B33CBBAD /* PlayfairDisplay-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8A617CA50CE246A1A3DC9BFD /* PlayfairDisplay-Regular.ttf */; };
+		9E90E31328EA98A40055D30B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		9E90E31828EA98A70055D30B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		A176CA91EC4D928732E98C79 /* libPods-Treasury-TreasuryTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 61DDB3E79EAEC53128ED08A0 /* libPods-Treasury-TreasuryTests.a */; };
 		A4BAED02DA7C465B888E42CC /* Montserrat-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6E85F345D80A450181D3D453 /* Montserrat-MediumItalic.ttf */; };
 		A8E9F470FFB14B4AA9BC978D /* PlayfairDisplay-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E2D07698E0334E7C979EE810 /* PlayfairDisplay-BoldItalic.ttf */; };
@@ -508,6 +509,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9E90E31328EA98A40055D30B /* LaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -515,7 +517,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				3D2EE365F4CE4E8A9CBDE6E2 /* Montserrat-Black.ttf in Resources */,
 				A9DB0C9424A44C40A474D2C8 /* Montserrat-BlackItalic.ttf in Resources */,
@@ -569,6 +570,7 @@
 				193F5A75F4D14A37B30216B0 /* Poppins-ExtraBold.ttf in Resources */,
 				D918666C6C594B308247987C /* Poppins-ExtraBoldItalic.ttf in Resources */,
 				11065A75989C4979B0A68A8F /* Poppins-ExtraLight.ttf in Resources */,
+				9E90E31828EA98A70055D30B /* LaunchScreen.storyboard in Resources */,
 				B935E1D7791D400EBF57F46C /* Poppins-ExtraLightItalic.ttf in Resources */,
 				65C12430FF51473BBCCFDDB5 /* Poppins-Italic.ttf in Resources */,
 				D1BFFE16C7F74D0CB6F0D30D /* Poppins-Light.ttf in Resources */,

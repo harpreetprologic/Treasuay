@@ -38,14 +38,18 @@ const Header = ({
           onPress={() =>
             isDrawer ? navigation.toggleDrawer() : navigation.goBack()
           }
-          style={{width: 45, alignItems: 'center'}}
+          style={{
+            width: 35,
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
           hitSlop={hitSlop}>
           {isDrawer ? (
             <MaterialCommunityIcons name="menu" size={35} color="#bbb" />
           ) : (
             <MaterialCommunityIcons
               name="chevron-left"
-              size={48}
+              size={38}
               color="#444"
             />
           )}

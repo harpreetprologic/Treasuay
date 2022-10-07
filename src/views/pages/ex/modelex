@@ -1,0 +1,149 @@
+import React, {useState, useCallback, useRef} from 'react';
+import {
+  Text,
+  View,
+  StyleSheet,
+  SafeAreaView,
+  TouchableOpacity,
+  TextInput,
+} from 'react-native';
+import IconsBack from 'react-native-vector-icons/AntDesign';
+import {useNavigation, NavigationContainer} from '@react-navigation/native';
+import {Modal, Center, Button, FormControl, Input, HStack} from 'native-base';
+
+const RecoveryPassword = () => {
+  const [email, setEmail] = useState('');
+  const [modalVisible, setModalVisible] = React.useState(false);
+  const initialRef = React.useRef(null);
+  const finalRef = React.useRef(null);
+
+  // const ExampleModal = ({
+  //   open,
+  //   onClose,
+  // }: {
+  //   open: boolean;
+  //   onClose: () => void;
+  // }) => {
+  //   return (
+  //     <>
+  //       <Modal
+  //         isOpen={open}
+  //         onClose={onClose}
+  //         initialFocusRef={initialRef}
+  //         finalFocusRef={finalRef}>
+  //         <Modal.Content>
+  //           <Modal.CloseButton />
+  //           <Modal.Header>Enter OTP</Modal.Header>
+  //           <Modal.Body>
+  //             <FormControl>
+  //               {/* <FormControl.Label>Name</FormControl.Label>
+  //               <Input ref={initialRef} /> */}
+  //               <Input
+  //                 w="100%"
+  //                 ref={finalRef}
+  //                 placeholder="Enter the OTP"
+  //                 _light={{
+  //                   placeholderTextColor: 'blueGray.700',
+  //                 }}
+  //                 _dark={{
+  //                   placeholderTextColor: 'blueGray.100',
+  //                 }}
+  //               />
+  //             </FormControl>
+  //             <FormControl mt="3">
+  //               {/* <FormControl.Label>Email</FormControl.Label>
+  //               <Input /> */}
+  //             </FormControl>
+  //           </Modal.Body>
+  //           <Modal.Footer>
+  //             <Button.Group space={2}>
+  //               <Button
+  //                 variant="ghost"
+  //                 colorScheme="blueGray"
+  //                 onPress={() => {
+  //                   setModalVisible(false);
+  //                 }}>
+  //                 Cancel
+  //               </Button>
+
+  //               <Button
+  //                 onPress={() => {
+  //                   setModalVisible(false);
+  //                 }}>
+  //                 Save
+  //               </Button>
+
+  //               {/* <Button
+  //                 onPress={() => {
+  //                   setModalVisible(true);
+  //                 }}>
+  //                 Open Modal
+  //               </Button> */}
+  //             </Button.Group>
+  //           </Modal.Footer>
+  //         </Modal.Content>
+  //       </Modal>
+  //       <HStack space="4" justifyContent="center" alignItems="center"></HStack>
+  //     </>
+  //   );
+  // };
+
+  return (
+    <SafeAreaView style={{padding: 12, flex: 1}}>
+      <View style={{padding: 12, flex: 1}}>
+        <TouchableOpacity
+          // onPress={() => navigation.navigate('BottomTab')}
+          style={{
+            // borderWidth: 1,
+            width: '13%',
+            height: '6%',
+            marginRight: 5,
+            borderRadius: 100,
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: '#e1e1e1',
+          }}>
+          <IconsBack name="left" size={22} color="black" />
+        </TouchableOpacity>
+        <View style={{marginTop: 50}}>
+          <Text style={{fontSize: 20, fontWeight: 'bold'}}>
+            Recovery Password
+          </Text>
+        </View>
+        <Text style={{marginTop: 50, fontSize: 19}}>Email</Text>
+        <TextInput
+          style={styles.input}
+          onChangeText={setEmail}
+          value={email}
+          placeholder="Enter Your Email"
+        />
+
+        <TouchableOpacity
+          // onPress={() => setModalVisible(true)}
+          style={{
+            borderWidth: 1,
+            marginTop: 44,
+            height: 25,
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: 'black',
+          }}>
+          <Text style={{color: 'white', fontWeight: 'bold'}}>Next</Text>
+        </TouchableOpacity>
+        {/* <ExampleModal
+          open={modalVisible}
+          onClose={() => setModalVisible(false)}
+        /> */}
+      </View>
+    </SafeAreaView>
+  );
+};
+export default RecoveryPassword;
+const styles = StyleSheet.create({
+  input: {
+    height: 40,
+    marginTop: 10,
+    borderWidth: 1,
+    padding: 10,
+  },
+});
